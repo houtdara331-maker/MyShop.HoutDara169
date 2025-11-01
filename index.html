@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ទំនិញOnline KH-KR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Khmer&family=Noto+Sans+KR&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e74c3c;
+      --dark: #2c3e50;
+      --light: #ecf0f1;
+      --gray: #95a5a6;
+      --success: #27ae60;
+      --danger: #c0392b;
+      --font: 'Khmer', sans-serif;
+      --font-kr: 'Noto Sans KR', sans-serif;
+      --font-en: 'Roboto', sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font), var(--font-kr), var(--font-en);
+    }
+    body {
+      background: var(--light);
+      color: #333;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    body.dark {
+      background: #1a1a1a;
+      color: #eee;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 12px 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff; }
+      to { text-shadow: 0 0 20px #fff, 0 0 30px var(--primary); }
+    }
+    .admin-info {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+    nav button {
+      flex: 1;
+      min-width: 80px;
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    nav button:hover {
+      background: #34495e;
+    }
+    nav button.active {
+      background: var(--primary);
+    }
+    .section {
+      display: none;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .section.active {
+      display: block;
+    }
+    body.dark .section {
+      background: #2d2d2d;
+      color: #eee;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: 0.3s;
+      text-align: center;
+      position: relative;
+    }
+    body.dark .card {
+      background: #333;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 10px;
+    }
+    .price {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    .stock {
+      font-size: 0.8rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+    .stock.low { color: #e67e22; }
+    .stock.out { color: var(--danger); }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      flex-wrap: wrap;
+    }
+    body.dark .cart-item {
+      border-color: #444;
+    }
+    .cart-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .cart-item input {
+      width: 50px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    body.dark th, body.dark td {
+      border-color: #444;
+    }
+    th {
+      background: var(--primary);
+      color: white;
+    }
+    .search-bar {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 8px;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin: 15px 0;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .chart-item {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    body.dark .chart-item {
+      background: #2d2d2d;
+    }
+    .chart-container {
+      position: relative;
+      height: 260px;
+      margin: 10px 0;
+    }
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .summary-card {
+      background: var(--primary);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .summary-card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      opacity: 0.9;
+    }
+    .summary-card .value {
+      font-size: 1.3rem;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    body.dark input, body.dark select, body.dark textarea {
+      background: #333;
+      color: #eee;
+      border-color: #555;
+    }
+    .upload-area {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .upload-area:hover {
+      border-color: var(--primary);
+      background: #f9f9f9;
+    }
+    body.dark .upload-area {
+      border-color: #555;
+      background: #333;
+    }
+    .total-table {
+      margin-top: 15px;
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    body.dark .total-table {
+      background: #333;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-weight: 500;
+    }
+    .total-row.final {
+      border-top: 2px solid var(--primary);
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-top: 8px;
+      padding-top: 8px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--success);
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    .sync-status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .sync-success { background: #d4edda; color: #155724; }
+    .sync-error { background: #f8d7da; color: #721c24; }
+    button {
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+    .btn-success { background: var(--success); }
+    .btn-danger { background: var(--danger); }
+    .add-to-cart-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .add-to-cart-btn:hover {
+      background: #219653;
+    }
+    .staff-info {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin: 10px 0;
+      text-align: center;
+    }
+    .staff-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .staff-card {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    }
+    body.dark .staff-card {
+      background: #3a3a3a;
+      color: #eee;
+    }
+    .staff-card h4 {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    .staff-card .value {
+      font-size: 1.1rem;
+      color: #27ae60;
+    }
+    .staff-card .value.unpaid {
+      color: #e67e22;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-grid { grid-template-columns: 1fr; }
+      nav { justify-content: center; }
+      header { flex-direction: column; }
+      .logo { font-size: 1.4rem; }
+    }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+      button, input, select { font-size: 0.8rem; padding: 6px 10px; }
+      .card img { height: 100px; }
+      .add-to-cart-btn { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div>
+        <div class="logo" id="storeName">ទំនិញOnline KH-KR</div>
+        <div class="admin-info" id="adminName">Admin: Hout Dara</div>
+      </div>
+    </header>
+    <!-- Navigation -->
+    <nav>
+      <button data-section="product-order">បញ្ជាទំនិញ</button>
+      <button data-section="products" class="active">ទំនិញ</button>
+      <button data-section="cart">រទេះ</button>
+      <button data-section="orders">ប្រវត្តិ</button>
+      <button data-section="online-order">បញ្ជាទិញអនឡាញ</button>
+      <button data-section="summary">សរុប</button>
+      <button data-section="add-product">បន្ថែម</button>
+      <button data-section="settings">កំណត់</button>
+    </nav>
+
+    <!-- Product Order Section -->
+    <div id="product-order" class="section">
+      <h2 id="titleProductOrder">បញ្ជាទំនិញ</h2>
+      <div id="productOrderItems" class="grid"></div>
+    </div>
+
+    <!-- Products Section -->
+    <div id="products" class="section active">
+      <h2 id="titleProducts">ទំនិញទាំងអស់</h2>
+      <div class="search-bar">
+        <input type="text" id="searchProduct" placeholder="ស្វែងរក..."/>
+        <button id="searchProductBtn"><i class="fas fa-search"></i></button>
+      </div>
+      <div style="overflow-x:auto; margin-top:15px;">
+        <table id="productTable">
+          <thead>
+            <tr>
+              <th>ឈ្មោះទំនិញ</th>
+              <th>តម្លៃ (₩)</th>
+              <th>ចំនួនស្តុក</th>
+              <th>សកម្មភាព</th>
+            </tr>
+          </thead>
+          <tbody id="productTableBody"></tbody>
+        </table>
+      </div>
+      <button class="btn-success" id="exportProductsBtn" style="width:100%; margin-top:15px;">
+        Save ទំនិញ ទៅ Excel
+      </button>
+    </div>
+
+    <!-- Cart Section -->
+    <div id="cart" class="section">
+      <h2 id="titleCart">រទេះទំនិញ</h2>
+      <div class="staff-info" id="cartStaffInfo">បុគ្គលិក: <span id="currentStaff">គ្មាន</span></div>
+      <div id="cartItems"></div>
+      <div class="form-group">
+        <label id="labelName">ឈ្មោះអតិថិជន</label>
+        <input type="text" id="customerName" placeholder="បញ្ចូលឈ្មោះ"/>
+      </div>
+      <div class="form-group">
+        <label id="labelPhone">លេខទូរស័ព្ទ</label>
+        <input type="tel" id="customerPhone" placeholder="012 345 678"/>
+      </div>
+      <div class="form-group">
+        <label id="labelAddress">ទីតាំងអតិថិជន</label>
+        <input type="text" id="customerAddress" placeholder="ផ្ទះលេខ..., ផ្លូវ..., សង្កាត់..." />
+      </div>
+      <div class="form-group">
+        <label id="labelPaymentStatus">ទូទាត់ / មិនទូទាត់</label>
+        <select id="paymentMethod">
+          <option value="paid">ទូទាត់</option>
+          <option value="unpaid">មិនទូទាត់</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="labelDelivery">សេវាដឹកជញ្ជូន (₩)</label>
+        <input type="number" id="deliveryFee" value="3000" min="0"/>
+      </div>
+      <div class="total-table" id="cartTotal"></div>
+      <button class="btn-success" id="checkoutBtn" style="width:100%; margin-top:15px;">
+        បញ្ជាទិញ
+      </button>
+      <button class="btn-success" id="generateReceiptBtn" style="width:100%; margin-top:10px; display:none;">
+        បង្កើតបង្កាន់ដៃ
+      </button>
+    </div>
+
+    <!-- Order History -->
+    <div id="orders" class="section">
+      <h2 id="titleOrders">ប្រវត្តិការបញ្ជាទិញ</h2>
+      <div class="search-bar">
+        <input type="text" id="searchOrder" placeholder="ស្វែងរក..."/>
+        <button id="searchBtn"><i class="fas fa-search"></i></button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="orderTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>កាលបរិច្ឆេទ</th>
+              <th>អតិថិជន</th>
+              <th>ទីតាំង</th>
+              <th>បុគ្គលិក</th>
+              <th>ទំនិញ</th>
+              <th>សរុប</th>
+              <th>ដឹក</th>
+              <th>សុទ្ធ</th>
+              <th id="paymentStatusHeader">ទូទាត់</th>
+              <th>សកម្មភាព</th>
+            </tr>
+          </thead>
+          <tbody id="orderTableBody"></tbody>
+        </table>
+      </div>
+      <button class="btn-success" id="exportOrdersBtn" style="width:100%; margin-top:15px;">
+        Save ប្រវត្តិ ទៅ Excel
+      </button>
+    </div>
+
+    <!-- Online Order Section -->
+    <div id="online-order" class="section"></div>
+
+    <!-- Sales Summary -->
+    <div id="summary" class="section">
+      <h2 id="titleSummary">សង្ខេបលក់</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h3 id="sumTotalSales">លក់សរុប</h3>
+          <div class="value" id="totalSales">₩0</div>
+        </div>
+        <div class="summary-card">
+          <h3 id="sumOrderCount">ចំនួនការបញ្ជា</h3>
+          <div class="value" id="orderCount">0</div>
+        </div>
+        <div class="summary-card">
+          <h3 id="sumTotalDelivery">ដឹកសរុប</h3>
+          <div class="value" id="totalDelivery">₩0</div>
+        </div>
+        <div class="summary-card">
+          <h3 id="sumNetSales">សុទ្ធសរុប</h3>
+          <div class="value" id="netSales">₩0</div>
+        </div>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-item">
+          <h3 id="pieChartTitle">Pie Chart: ចែកចាយលក់</h3>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-item">
+          <h3 id="barChartTitle">Bar Chart: ទិដ្ឋភាពសូចនារ</h3>
+          <div class="chart-container">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="staff-summary" id="staffSummary"></div>
+    </div>
+
+    <!-- Add Product -->
+    <div id="add-product" class="section">
+      <h2 id="titleAddProduct">បន្ថែមទំនិញថ្មី</h2>
+      <div class="upload-area" id="uploadArea">
+        <i class="fas fa-cloud-upload-alt" style="font-size:2rem; color:#999;"></i>
+        <p id="uploadText">ចុចដើម្បីបញ្ចូលរូបភាព</p>
+        <input type="file" id="productImage" accept="image/*" hidden/>
+      </div>
+      <div class="form-group">
+        <label id="labelProductName">ឈ្មោះទំនិញ</label>
+        <input type="text" id="newProductName" placeholder="ឈ្មោះ"/>
+      </div>
+      <div class="form-group">
+        <label id="labelProductPrice">តម្លៃ (₩)</label>
+        <input type="number" id="newProductPrice" placeholder="0" min="0"/>
+      </div>
+      <div class="form-group">
+        <label id="labelProductStock">ចំនួនស្តុក</label>
+        <input type="number" id="newProductStock" value="10" min="0"/>
+      </div>
+      <button class="btn-success" id="addProductBtn" style="width:100%;">
+        បញ្ចូលទំនិញ
+      </button>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings" class="section">
+      <h2 id="titleSettings">ការកំណត់</h2>
+      <div class="form-group">
+        <label for="langSwitch">ភាសា</label>
+        <select id="langSwitch" style="width:100%;">
+          <option value="km">ខ្មែរ (KH)</option>
+          <option value="kr">한국어 (KR)</option>
+          <option value="en">English (EN)</option>
+        </select>
+      </div>
+      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+        <label>Dark Mode</label>
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label id="labelStoreName">ឈ្មោះហាង</label>
+        <input type="text" id="settingStoreName" placeholder="បញ្ចូលឈ្មោះហាង"/>
+      </div>
+      <div class="form-group">
+        <label id="labelAdminName">ឈ្មោះ Admin</label>
+        <input type="text" id="settingAdminName" placeholder="បញ្ចូលឈ្មោះ Admin"/>
+      </div>
+      <div class="form-group">
+        <label id="labelStaffName">ឈ្មោះបុគ្គលិកលក់</label>
+        <input type="text" id="settingStaffName" placeholder="ឈ្មោះបុគ្គលិក"/>
+      </div>
+      <div class="form-group">
+        <label id="labelCurrencyRate">អត្រាប្តូរប្រាក់ (1₩ = ?៛)</label>
+        <input type="number" id="settingCurrencyRate" value="33" min="1"/>
+      </div>
+      <div class="form-group">
+        <label id="labelDefaultDelivery">សេវាដឹកជញ្ជូនលំនាំដើម (₩)</label>
+        <input type="number" id="settingDefaultDelivery" value="3000" min="0"/>
+      </div>
+      <div class="form-group">
+        <label id="labelThemeColor">ពណ៌ផ្ទៃខាងក្រោយ</label>
+        <input type="color" id="settingThemeColor" value="#e74c3c"/>
+      </div>
+      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+        <label id="labelDarkModeDefault">Dark Mode ជាលំនាំដើម</label>
+        <label class="switch">
+          <input type="checkbox" id="settingDarkModeDefault">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+        <label id="labelMaintenanceMode">បិទហាង (Maintenance)</label>
+        <label class="switch">
+          <input type="checkbox" id="settingMaintenanceMode">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+        <label id="labelShowStock">បង្ហាញចំនួនស្តុក</label>
+        <label class="switch">
+          <input type="checkbox" id="settingShowStock" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label id="labelCloudSync">កំណត់ Cloud Sync</label>
+        <input type="checkbox" id="settingCloudSync" checked> បើក Sync ស្វ័យប្រវត្តិ
+      </div>
+      <button class="btn-success" id="saveSettings" style="width:100%; margin-top:15px;">
+        រក្សាទុកការកំណត់
+      </button>
+      <button class="btn-success" id="syncToCloud" style="width:100%; margin-top:10px;">
+        Sync ទៅ Cloud ឥឡូវនេះ
+      </button>
+      <div id="syncStatus" class="sync-status"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script>
+    window.XLSX = XLSX;
+    window.saveAs = saveAs;
+
+    // ========== Supabase Configuration (Your Keys) ==========
+    const SUPABASE_URL = 'https://crjnbddgfvzeaicyelft.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyam5iZGRnZnZ6ZWFpY3llbGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MDgzNzIsImV4cCI6MjA3NzQ4NDM3Mn0.-3TJFY6h1Pc4xSaCs0qHPuYkXnaLM04ZsKcXOpgjlwE';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ========== Translations ==========
+    const translations = {
+      km: {
+        titleProductOrder: "បញ្ជាទំនិញ", titleProducts: "ទំនិញទាំងអស់", titleCart: "រទេះទំនិញ", titleOrders: "ប្រវត្តិការបញ្ជាទិញ",
+        titleOnlineOrder: "បញ្ជាទិញអនឡាញ", titleSummary: "សង្ខេបលក់", titleAddProduct: "បន្ថែមទំនិញថ្មី", titleSettings: "ការកំណត់",
+        labelName: "ឈ្មោះអតិថិជន", labelPhone: "លេខទូរស័ព្ទ", labelAddress: "ទីតាំងអតិថិជន", labelDelivery: "សេវាដឹកជញ្ជូន (₩)",
+        labelPaymentStatus: "ទូទាត់ / មិនទូទាត់", checkoutBtn: "បញ្ជាទិញ", generateReceiptBtn: "បង្កើតបង្កាន់ដៃ",
+        sumTotalSales: "លក់សរុប", sumOrderCount: "ចំនួនការបញ្ជា", sumTotalDelivery: "ដឹកសរុប", sumNetSales: "សុទ្ធសរុប",
+        labelProductName: "ឈ្មោះទំនិញ", labelProductPrice: "តម្លៃ (₩)", labelProductStock: "ចំនួនស្តុក",
+        addProductBtn: "បញ្ចូលទំនិញ", uploadText: "ចុចដើម្បីបញ្ចូលរូបភាព", labelStoreName: "ឈ្មោះហាង", labelAdminName: "ឈ្មោះ Admin",
+        labelStaffName: "ឈ្មោះបុគ្គលិកលក់", labelCurrencyRate: "អត្រាប្តូរប្រាក់ (1₩ = ?៛)", labelDefaultDelivery: "សេវាដឹកជញ្ជូនលំនាំដើម (₩)",
+        labelThemeColor: "ពណ៌ផ្ទៃខាងក្រោយ", labelDarkModeDefault: "Dark Mode ជាលំនាំដើម", labelMaintenanceMode: "បិទហាង (Maintenance)",
+        labelShowStock: "បង្ហាញចំនួនស្តុក", labelCloudSync: "កំណត់ Cloud Sync", saveSettings: "រក្សាទុកការកំណត់", syncToCloud: "Sync ទៅ Cloud ឥឡូវនេះ",
+        syncSuccess: "Sync ជោគជ័យ!", syncError: "Sync បរាជ័យ: សូមពិនិត្យការតភ្ជាប់ ឬការកំណត់ Supabase", noItems: "មិនមានទំនិញ",
+        searchPlaceholder: "ស្វែងរក...", total: "សរុប", delivery: "ដឹក", net: "សុទ្ធ", delete: "លុប", edit: "កែ", addToCart: "បន្ថែម",
+        staff: "បុគ្គលិក", noStaff: "គ្មាន", sumSoldItems: "ទំនិញលក់", pieChartTitle: "Pie Chart: ចែកចាយលក់", barChartTitle: "Bar Chart: ទិដ្ឋភាពសូចនារ",
+        exportProducts: "Save ទំនិញ ទៅ Excel", exportOrders: "Save ប្រវត្តិ ទៅ Excel", paymentPaid: "ទូទាត់", paymentUnpaid: "មិនទូទាត់",
+        receiptGenerated: "បង្កាន់ដៃបានបង្កើតជោគជ័យ!", noOnlineOrders: "មិនមានការបញ្ជាទិញអនឡាញ",
+        staffSalesSummary: "សង្ខេបលក់បុគ្គលិក",
+        staffTotalSales: "ដំលៃសរុប",
+        staffOrderCount: "ចំនួនលក់",
+        staffPaid: "ទូទាត់រួច",
+        staffUnpaid: "មិនទូទាត់"
+      },
+      kr: {}, en: {}
+    };
+
+    // ========== Variables & Elements ==========
+    let products = [], cart = [], orders = [], currentLang = localStorage.getItem('lang') || 'km';
+    let isDark = localStorage.getItem('dark') === 'true';
+    let settings = JSON.parse(localStorage.getItem('settings')) || {
+      storeName: "ទំនិញOnline KH-KR", adminName: "Hout Dara", staffName: "", currencyRate: 33, defaultDelivery: 3000,
+      themeColor: "#e74c3c", darkModeDefault: false, maintenanceMode: false, showStock: true, cloudSync: true
+    };
+    const els = {};
+    const elementIds = [
+      'storeName','adminName','productOrderItems','cartItems','cartTotal','checkoutBtn','orderTableBody',
+      'searchOrder','searchBtn','totalSales','orderCount','totalDelivery','netSales','uploadArea','productImage',
+      'newProductName','newProductPrice','newProductStock','addProductBtn','settingStoreName','settingAdminName',
+      'settingStaffName','settingCurrencyRate','settingDefaultDelivery','settingThemeColor','settingDarkModeDefault',
+      'settingMaintenanceMode','settingShowStock','settingCloudSync','syncToCloud','syncStatus','customerName',
+      'customerPhone','customerAddress','deliveryFee','uploadText','langSwitch','darkModeToggle',
+      'titleProductOrder','titleProducts','titleCart','titleOrders','titleOnlineOrder','titleSummary','titleAddProduct',
+      'titleSettings','labelName','labelPhone','labelAddress','labelDelivery','labelPaymentStatus','sumTotalSales',
+      'sumOrderCount','sumTotalDelivery','sumNetSales','labelProductName','labelProductPrice','labelProductStock',
+      'labelStoreName','labelAdminName','labelStaffName','labelCurrencyRate','labelDefaultDelivery','labelThemeColor',
+      'labelDarkModeDefault','labelMaintenanceMode','labelShowStock','labelCloudSync','saveSettings','pieChartTitle',
+      'barChartTitle','searchProduct','searchProductBtn','cartStaffInfo','currentStaff','exportProductsBtn',
+      'exportOrdersBtn','paymentMethod','generateReceiptBtn','paymentStatusHeader',
+      'staffSummary'
+    ];
+    elementIds.forEach(id => els[id] = document.getElementById(id));
+    els.navButtons = document.querySelectorAll('nav button');
+    els.sections = document.querySelectorAll('.section');
+    let pieChart, barChart;
+    const pieCtx = document.getElementById('pieChart')?.getContext('2d');
+    const barCtx = document.getElementById('barChart')?.getContext('2d');
+
+    // ========== Helper Functions ==========
+    function showSyncStatus(msg, type) {
+      const status = els.syncStatus;
+      if (!status) return;
+      status.textContent = msg;
+      status.className = `sync-status sync-${type}`;
+      status.style.display = 'block';
+      setTimeout(() => status.style.display = 'none', 3000);
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      if (els.langSwitch) els.langSwitch.value = lang;
+      document.documentElement.lang = lang === 'kr' ? 'ko' : lang;
+      Object.keys(translations[lang]).forEach(key => {
+        if (els[key]) {
+          if (['searchProduct', 'searchOrder'].includes(key)) {
+            els[key].placeholder = translations[lang].searchPlaceholder;
+          } else {
+            els[key].textContent = translations[lang][key];
+          }
+        }
+      });
+      if (els.currentStaff) els.currentStaff.textContent = settings.staffName || translations[lang].noStaff;
+      if (els.paymentMethod) {
+        els.paymentMethod.innerHTML = `
+          <option value="paid">${translations[lang].paymentPaid}</option>
+          <option value="unpaid">${translations[lang].paymentUnpaid}</option>
+        `;
+      }
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      renderOrders();
+      renderOnlineOrders();
+      updateSummary();
+    }
+
+    function applyDarkMode(dark) {
+      isDark = dark;
+      document.body.classList.toggle('dark', dark);
+      localStorage.setItem('dark', dark);
+      if (els.darkModeToggle) els.darkModeToggle.checked = dark;
+    }
+
+    function applyThemeColor(color) {
+      document.documentElement.style.setProperty('--primary', color);
+      localStorage.setItem('themeColor', color);
+    }
+
+    function saveSettings() {
+      settings = {
+        storeName: els.settingStoreName?.value || settings.storeName,
+        adminName: els.settingAdminName?.value || settings.adminName,
+        staffName: els.settingStaffName?.value.trim(),
+        currencyRate: parseInt(els.settingCurrencyRate?.value) || 33,
+        defaultDelivery: parseInt(els.settingDefaultDelivery?.value) || 3000,
+        themeColor: els.settingThemeColor?.value,
+        darkModeDefault: els.settingDarkModeDefault?.checked,
+        maintenanceMode: els.settingMaintenanceMode?.checked,
+        showStock: els.settingShowStock?.checked,
+        cloudSync: els.settingCloudSync?.checked
+      };
+      localStorage.setItem('settings', JSON.stringify(settings));
+      if (els.storeName) els.storeName.textContent = settings.storeName;
+      if (els.adminName) els.adminName.textContent = `Admin: ${settings.adminName}`;
+      if (els.deliveryFee) els.deliveryFee.value = settings.defaultDelivery;
+      applyThemeColor(settings.themeColor);
+      applyDarkMode(settings.darkModeDefault);
+      if (els.currentStaff) els.currentStaff.textContent = settings.staffName || translations[currentLang].noStaff;
+      showSyncStatus(translations[currentLang].saveSettings + ' Success', 'success');
+      syncToCloud();
+    }
+
+    function exportToExcel(filename, sheetName, data) {
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, sheetName);
+      XLSX.writeFile(wb, filename + '.xlsx');
+    }
+
+    function exportProductsToExcel() {
+      if (products.length === 0) { showSyncStatus(translations[currentLang].noItems, 'error'); return; }
+      const data = products.map(p => ({
+        [translations[currentLang].labelProductName]: p.name,
+        [translations[currentLang].labelProductPrice]: p.price,
+        [translations[currentLang].labelProductStock]: p.stock
+      }));
+      exportToExcel('Products', translations[currentLang].titleProducts, data);
+    }
+
+    function exportOrdersToExcel() {
+      if (orders.length === 0) { showSyncStatus(translations[currentLang].noItems, 'error'); return; }
+      const data = orders.map(o => ({
+        'ID': o.id.slice(-6),
+        [translations[currentLang].titleOrders]: new Date(o.date).toLocaleString(),
+        [translations[currentLang].labelName]: o.customer.name,
+        [translations[currentLang].labelPhone]: o.customer.phone,
+        [translations[currentLang].labelAddress]: o.customer.address,
+        [translations[currentLang].staff]: o.staff,
+        [translations[currentLang].total]: o.total,
+        [translations[currentLang].delivery]: o.delivery,
+        [translations[currentLang].net]: o.net,
+        [translations[currentLang].labelPaymentStatus]: o.paymentMethod === 'paid' ? translations[currentLang].paymentPaid : translations[currentLang].paymentUnpaid
+      }));
+      exportToExcel('Orders', translations[currentLang].titleOrders, data);
+    }
+
+    function generateReceipt(order) {
+      const items = order.items.map(i => `${i.name} × ${i.qty} @ ₩${i.price} = ₩${i.price * i.qty}`).join('\n');
+      const paymentText = order.paymentMethod === 'paid' ? translations[currentLang].paymentPaid : translations[currentLang].paymentUnpaid;
+      const receiptText = `${settings.storeName}\n${translations[currentLang].titleOrders} ID: ${order.id.slice(-6)}\n${translations[currentLang].labelName}: ${order.customer.name}\n${translations[currentLang].labelPhone}: ${order.customer.phone}\n${translations[currentLang].labelAddress}: ${order.customer.address}\n${translations[currentLang].staff}: ${order.staff}\n${translations[currentLang].labelPaymentStatus}: ${paymentText}\n${translations[currentLang].titleOrders}: ${new Date(order.date).toLocaleString()}\n----------------------------\n${items}\n----------------------------\n${translations[currentLang].total}: ₩${order.total}\n${translations[currentLang].delivery}: ₩${order.delivery}\n${translations[currentLang].net}: ₩${order.net}`;
+      const blob = new Blob([receiptText], { type: 'text/plain;charset=utf-8' });
+      saveAs(blob, `Receipt_${order.id.slice(-6)}.txt`);
+      showSyncStatus(translations[currentLang].receiptGenerated, 'success');
+    }
+
+    function restoreStock(order) {
+      if (!order || !order.items) return;
+      order.items.forEach(item => {
+        const product = products.find(p => p.id === item.id);
+        if (product) product.stock += item.qty;
+      });
+    }
+
+    function renderProductOrder() {
+      const container = els.productOrderItems;
+      if (!container) return;
+      container.innerHTML = '';
+      if (products.length === 0) {
+        container.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;">${translations[currentLang].noItems}</p>`;
+        return;
+      }
+      products.forEach(p => {
+        const stockClass = p.stock <= 0 ? 'out' : p.stock <= 3 ? 'low' : '';
+        const stockText = settings.showStock ? `<div class="stock ${stockClass}">${p.stock > 0 ? p.stock + ' នៅ' : 'អស់'}</div>` : '';
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}">
+          <div class="card-body">
+            <div style="font-weight:600;font-size:0.9rem;">${p.name}</div>
+            <div class="price">₩${p.price}</div>
+            ${stockText}
+            <div style="margin-top:5px; display:flex; gap:5px; align-items:center;">
+              <input type="number" id="qty-${p.id}" value="1" min="1" max="${p.stock}" style="width:50px; text-align:center; padding:4px;">
+              <button class="add-to-cart-btn" onclick="addToCart('${p.id}')">${translations[currentLang].addToCart}</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function addToCart(id) {
+      const p = products.find(x => x.id === id);
+      const qtyInput = document.getElementById(`qty-${id}`);
+      const qty = parseInt(qtyInput?.value) || 1;
+      if (!p || p.stock < qty) { showSyncStatus('ស្តុកមិនគ្រប់!', 'error'); return; }
+      const item = cart.find(x => x.id === id);
+      if (item) {
+        if (item.qty + qty <= p.stock) item.qty += qty;
+        else { showSyncStatus('ស្តុកមិនគ្រប់សម្រាប់ការបនថែម!', 'error'); return; }
+      } else {
+        cart.push({ ...p, qty });
+      }
+      p.stock -= qty;
+      if (qtyInput) qtyInput.value = 1;
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      syncToCloud();
+      showSyncStatus('បន្ថែមទៅរទេះជោគជ័យ!', 'success');
+    }
+
+    function renderProducts() {
+      const tbody = document.getElementById('productTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      const search = els.searchProduct?.value.toLowerCase() || '';
+      const filtered = products.filter(p => p.name.toLowerCase().includes(search));
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#999;">${translations[currentLang].noItems}</td></tr>`;
+        return;
+      }
+      filtered.forEach(p => {
+        const stockClass = p.stock <= 0 ? 'out' : p.stock <= 3 ? 'low' : '';
+        const stockText = settings.showStock ? `<span class="stock ${stockClass}">${p.stock > 0 ? p.stock : translations[currentLang].noItems}</span>` : 'N/A';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${p.name}</td>
+          <td>₩${p.price}</td>
+          <td>${stockText}</td>
+          <td>
+            <button onclick="editProduct('${p.id}')" style="background:#3498db;padding:3px 6px;font-size:0.7rem;margin-right:5px;">${translations[currentLang].edit}</button>
+            <button onclick="deleteProduct('${p.id}')" style="background:var(--danger);padding:3px 6px;font-size:0.7rem;">${translations[currentLang].delete}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteProduct(id) {
+      products = products.filter(p => p.id !== id);
+      cart = cart.filter(item => item.id !== id);
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      syncToCloud();
+      showSyncStatus('លុបទំនិញជោគជ័យ!', 'success');
+    }
+
+    function editProduct(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      els.navButtons.forEach(b => b.classList.remove('active'));
+      document.querySelector('nav button[data-section="add-product"]')?.classList.add('active');
+      els.sections.forEach(s => s.classList.remove('active'));
+      document.getElementById('add-product')?.classList.add('active');
+      if (els.newProductName) els.newProductName.value = p.name;
+      if (els.newProductPrice) els.newProductPrice.value = p.price;
+      if (els.newProductStock) els.newProductStock.value = p.stock;
+      if (els.uploadArea) els.uploadArea.innerHTML = `<img src="${p.image}" style="width:100%;height:150px;object-fit:cover;border-radius:8px;">`;
+      if (els.addProductBtn) {
+        els.addProductBtn.textContent = 'រក្សាទុក';
+        els.addProductBtn.dataset.editId = id;
+      }
+    }
+
+    function updateCartQty(id, qty) {
+      qty = parseInt(qty) || 0;
+      const item = cart.find(x => x.id === id);
+      const p = products.find(x => x.id === id);
+      if (!item || !p) return;
+      const diff = qty - item.qty;
+      if (diff > 0 && p.stock < diff) { showSyncStatus('ស្តុកមិនគ្រប់!', 'error'); qty = item.qty + p.stock; }
+      item.qty = qty;
+      p.stock += (item.qty - qty);
+      if (qty === 0) cart = cart.filter(x => x.id !== id);
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+    }
+
+    function removeFromCart(id) {
+      const item = cart.find(x => x.id === id);
+      const p = products.find(x => x.id === id);
+      if (item && p) p.stock += item.qty;
+      cart = cart.filter(x => x.id !== id);
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      syncToCloud();
+    }
+
+    function renderCart() {
+      const container = els.cartItems;
+      if (!container) return;
+      container.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div style="flex:1;">
+            <div style="font-weight:600;">${item.name}</div>
+            <div>₩${item.price} × <input type="number" value="${item.qty}" min="0" style="width:50px;" onchange="updateCartQty('${item.id}', this.value)"></div>
+          </div>
+          <div style="font-weight:600;">₩${subtotal}</div>
+          <button onclick="removeFromCart('${item.id}')" style="background:var(--danger);padding:5px 8px;font-size:0.8rem;">×</button>
+        `;
+        container.appendChild(div);
+      });
+      const delivery = parseInt(els.deliveryFee?.value) || 0;
+      const net = Math.max(0, total - delivery);
+      if (els.cartTotal) {
+        els.cartTotal.innerHTML = `
+          <div class="total-row"><span>${translations[currentLang].total}</span><span>₩${total}</span></div>
+          <div class="total-row"><span>${translations[currentLang].delivery}</span><span>₩${delivery}</span></div>
+          <div class="total-row final"><span>${translations[currentLang].net}</span><span>₩${net}</span></div>
+        `;
+      }
+      if (els.generateReceiptBtn) els.generateReceiptBtn.style.display = cart.length > 0 ? 'block' : 'none';
+    }
+
+    function checkout() {
+      const name = els.customerName?.value.trim();
+      const phone = els.customerPhone?.value.trim();
+      const address = els.customerAddress?.value.trim() || 'មិនបានបញ្ជាក់';
+      const paymentMethod = els.paymentMethod?.value;
+      if (cart.length === 0) return showSyncStatus('រទេះទទេ!', 'error');
+      if (!name || !phone || !paymentMethod) return showSyncStatus('បំពេញព័ត៌មាន!', 'error');
+      cart.forEach(item => {
+        const p = products.find(x => x.id === item.id);
+        if (p) p.stock -= item.qty;
+      });
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const delivery = parseInt(els.deliveryFee?.value) || 0;
+      const order = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        customer: { name, phone, address },
+        staff: settings.staffName || translations[currentLang].noStaff,
+        items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty })),
+        total, delivery, net: total - delivery, paymentMethod
+      };
+      orders.unshift(order);
+      cart = [];
+      if (els.customerName) els.customerName.value = '';
+      if (els.customerPhone) els.customerPhone.value = '';
+      if (els.customerAddress) els.customerAddress.value = '';
+      if (els.paymentMethod) els.paymentMethod.value = 'paid';
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      renderOrders();
+      renderOnlineOrders();
+      updateSummary();
+      syncToCloud();
+      showSyncStatus('បញ្ជាទិញជោគជ័យ! ស្តុកត្រូវបានដក', 'success');
+      if (els.generateReceiptBtn) {
+        els.generateReceiptBtn.style.display = 'block';
+        els.generateReceiptBtn.onclick = () => generateReceipt(order);
+      }
+    }
+
+    function renderOrders() {
+      const tbody = els.orderTableBody;
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      const search = els.searchOrder?.value.toLowerCase() || '';
+      const filtered = orders.filter(o =>
+        o.customer.name.toLowerCase().includes(search) ||
+        o.customer.phone.includes(search) ||
+        (o.customer.address || '').toLowerCase().includes(search) ||
+        (o.staff || '').toLowerCase().includes(search) ||
+        o.items.some(i => i.name.toLowerCase().includes(search))
+      );
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;color:#999;">${translations[currentLang].noItems}</td></tr>`;
+        return;
+      }
+      filtered.forEach(o => {
+        const tr = document.createElement('tr');
+        const items = o.items.map(i => `${i.name}×${i.qty}`).join(', ');
+        const paymentText = o.paymentMethod === 'paid' ? translations[currentLang].paymentPaid : translations[currentLang].paymentUnpaid;
+        tr.innerHTML = `
+          <td>${o.id.slice(-6)}</td>
+          <td>${new Date(o.date).toLocaleString()}</td>
+          <td>${o.customer.name}<br><small>${o.customer.phone}</small></td>
+          <td><small>${o.customer.address}</small></td>
+          <td>${o.staff}</td>
+          <td style="font-size:0.8rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${items}">${items}</td>
+          <td>₩${o.total}</td>
+          <td>₩${o.delivery}</td>
+          <td>₩${o.net}</td>
+          <td>${paymentText}</td>
+          <td style="white-space:nowrap;">
+            <button onclick="editOrder('${o.id}')" style="background:#3498db;padding:3px 6px;font-size:0.7rem;margin-right:5px;">
+              ${translations[currentLang].edit}
+            </button>
+            <button onclick="deleteOrder('${o.id}')" style="background:var(--danger);padding:3px 6px;font-size:0.7rem;">
+              ${translations[currentLang].delete}
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteOrder(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      restoreStock(order);
+      orders = orders.filter(o => o.id !== id);
+      renderOrders();
+      renderOnlineOrders();
+      renderProductOrder();
+      renderProducts();
+      updateSummary();
+      syncToCloud();
+      showSyncStatus('លុបជោគជ័យ! ស្តុកត្រូវបានបូកវិញ', 'success');
+    }
+
+    function editOrder(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      restoreStock(order);
+      els.navButtons.forEach(b => b.classList.remove('active'));
+      document.querySelector('nav button[data-section="cart"]')?.classList.add('active');
+      els.sections.forEach(s => s.classList.remove('active'));
+      document.getElementById('cart')?.classList.add('active');
+      cart = order.items.map(item => ({ ...item }));
+      if (els.customerName) els.customerName.value = order.customer.name;
+      if (els.customerPhone) els.customerPhone.value = order.customer.phone;
+      if (els.customerAddress) els.customerAddress.value = order.customer.address;
+      if (els.paymentMethod) els.paymentMethod.value = order.paymentMethod;
+      if (els.deliveryFee) els.deliveryFee.value = order.delivery;
+      orders = orders.filter(o => o.id !== id);
+      showSyncStatus('កំពុងកែ — ស្តុកត្រូវបានបូកវិញ', 'success');
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      renderOrders();
+      updateSummary();
+      syncToCloud();
+    }
+
+    function generateColors(count) {
+      const colors = [];
+      for (let i = 0; i < count; i++) {
+        const hue = (i * 360 / count) % 360;
+        colors.push(`hsl(${hue}, 70%, 50%)`);
+      }
+      return colors;
+    }
+
+    function renderStaffSummary() {
+      if (!els.staffSummary) return;
+      const staffMap = {};
+      orders.forEach(o => {
+        const staff = o.staff || translations[currentLang].noStaff;
+        if (!staffMap[staff]) {
+          staffMap[staff] = { total: 0, count: 0, paid: 0, unpaid: 0 };
+        }
+        staffMap[staff].total += o.total;
+        staffMap[staff].count += 1;
+        if (o.paymentMethod === 'paid') staffMap[staff].paid += o.total;
+        else staffMap[staff].unpaid += o.total;
+      });
+      let html = '';
+      Object.keys(staffMap).forEach(staff => {
+        const s = staffMap[staff];
+        html += `
+          <div class="staff-card">
+            <h4>${staff}</h4>
+            <div>₩${s.total} <small>(${translations[currentLang].staffTotalSales})</small></div>
+            <div>${s.count} <small>(${translations[currentLang].staffOrderCount})</small></div>
+            <div class="value">₩${s.paid} <small>(${translations[currentLang].staffPaid})</small></div>
+            <div class="value unpaid">₩${s.unpaid} <small>(${translations[currentLang].staffUnpaid})</small></div>
+          </div>
+        `;
+      });
+      if (!html) {
+        html = `<p style="grid-column:1/-1;text-align:center;color:#999;">${translations[currentLang].noItems}</p>`;
+      }
+      els.staffSummary.innerHTML = html;
+    }
+
+    function updateSummary() {
+      const totalSales = orders.reduce((s, o) => s + o.total, 0);
+      const totalDelivery = orders.reduce((s, o) => s + o.delivery, 0);
+      const netSales = totalSales - totalDelivery;
+      if (els.totalSales) els.totalSales.textContent = `₩${totalSales}`;
+      if (els.orderCount) els.orderCount.textContent = orders.length;
+      if (els.totalDelivery) els.totalDelivery.textContent = `₩${totalDelivery}`;
+      if (els.netSales) els.netSales.textContent = `₩${netSales}`;
+      updatePieChart(totalSales, totalDelivery, netSales);
+      updateBarChart(totalSales, orders.length, orders.reduce((s, o) => s + o.items.reduce((t, i) => t + i.qty, 0), 0), totalDelivery, netSales);
+      renderStaffSummary();
+    }
+
+    function updatePieChart(totalSales, totalDelivery, netSales) {
+      const labels = [translations[currentLang].sumTotalSales, translations[currentLang].sumTotalDelivery, translations[currentLang].sumNetSales];
+      const data = [totalSales, totalDelivery, netSales];
+      const colors = generateColors(data.length);
+      if (pieChart) pieChart.destroy();
+      if (pieCtx) pieChart = new Chart(pieCtx, { type: 'pie', data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+    }
+
+    function updateBarChart(totalSales, orderCount, soldItems, totalDelivery, netSales) {
+      const labels = [translations[currentLang].sumTotalSales, translations[currentLang].sumOrderCount, translations[currentLang].sumSoldItems, translations[currentLang].sumTotalDelivery, translations[currentLang].sumNetSales];
+      const data = [totalSales, orderCount, soldItems, totalDelivery, netSales];
+      const colors = generateColors(data.length);
+      if (barChart) barChart.destroy();
+      if (barCtx) barChart = new Chart(barCtx, { type: 'bar', data: { labels, datasets: [{ label: 'Metrics', data, backgroundColor: colors, borderWidth: 1 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } } });
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file || !els.uploadArea) return;
+      const reader = new FileReader();
+      reader.onload = ev => { els.uploadArea.innerHTML = `<img src="${ev.target.result}" style="width:100%;height:150px;object-fit:cover;border-radius:8px;">`; };
+      reader.readAsDataURL(file);
+    }
+
+    function addProductHandler() {
+      const name = els.newProductName?.value.trim();
+      const price = parseInt(els.newProductPrice?.value) || 0;
+      const stock = parseInt(els.newProductStock?.value) || 0;
+      const img = els.uploadArea?.querySelector('img')?.src || 'https://via.placeholder.com/150?text=No+Image';
+      if (!name || price <= 0) { showSyncStatus('បំពេញទិន្នន័យ!', 'error'); return; }
+      const editId = els.addProductBtn?.dataset.editId;
+      if (editId) {
+        const idx = products.findIndex(p => p.id === editId);
+        if (idx > -1) products[idx] = { ...products[idx], name, price, stock, image: img };
+        showSyncStatus('កែទំនិញជោគជ័យ!', 'success');
+        delete els.addProductBtn.dataset.editId;
+        if (els.addProductBtn) els.addProductBtn.textContent = translations[currentLang].addProductBtn;
+      } else {
+        products.push({ id: Date.now().toString(), name, price, stock, image: img });
+        showSyncStatus('បញ្ចូលទំនិញជោគជ័យ!', 'success');
+      }
+      if (els.newProductName) els.newProductName.value = '';
+      if (els.newProductPrice) els.newProductPrice.value = '';
+      if (els.newProductStock) els.newProductStock.value = '10';
+      if (els.uploadArea) els.uploadArea.innerHTML = `<i class="fas fa-cloud-upload-alt" style="font-size:2rem; color:#999;"></i><p>${translations[currentLang].uploadText}</p><input type="file" id="productImage" accept="image/*" hidden/>`;
+      els.productImage = document.getElementById('productImage');
+      if (els.productImage) els.productImage.addEventListener('change', handleImageUpload);
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      syncToCloud();
+    }
+
+    async function syncToCloud() {
+      if (!settings.cloudSync) return;
+      try {
+        const { error } = await supabase
+          .from('store_data')
+          .upsert({
+            id: 1,
+            products: products,
+            orders: orders,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'id' });
+        if (error) throw error;
+        showSyncStatus(translations[currentLang].syncSuccess, 'success');
+      } catch (err) {
+        showSyncStatus(translations[currentLang].syncError, 'error');
+      }
+    }
+
+    async function loadFromCloud() {
+      try {
+        const { data, error } = await supabase
+          .from('store_data')
+          .select('products, orders')
+          .eq('id', 1)
+          .single();
+        if (error && error.code !== 'PGRST116') throw error;
+        if (data) {
+          products = data.products || [];
+          orders = data.orders || [];
+        }
+      } catch (err) { console.warn('Load failed:', err); }
+      renderProductOrder();
+      renderProducts();
+      renderCart();
+      renderOrders();
+      renderOnlineOrders();
+      updateSummary();
+    }
+
+    function renderOnlineOrders() {
+      const section = document.getElementById('online-order');
+      if (!section) return;
+      const onlineOrders = orders.filter(o => o.staff && o.staff.trim().toLowerCase() === 'online');
+      let html = `<h2>${translations[currentLang].titleOnlineOrder}</h2>`;
+      if (onlineOrders.length === 0) {
+        html += `<p style="text-align:center;color:#999;">${translations[currentLang].noOnlineOrders}</p>`;
+      } else {
+        html += `<div style="overflow-x:auto; margin-top:10px;"><table style="width:100%; font-size:0.85rem;"><thead><tr><th>ID</th><th>កាលបរិច្ឆេទ</th><th>អតិថិជន</th><th>ទីតាំង</th><th>ទំនិញ</th><th>សរុប</th><th>ដឹក</th><th>សុទ្ធ</th><th>វិធីបង់</th></tr></thead><tbody>`;
+        onlineOrders.forEach(o => {
+          const items = o.items.map(i => `${i.name}×${i.qty}`).join(', ');
+          const paymentText = o.paymentMethod === 'paid' ? translations[currentLang].paymentPaid : translations[currentLang].paymentUnpaid;
+          html += `<tr><td>${o.id.slice(-6)}</td><td>${new Date(o.date).toLocaleString()}</td><td>${o.customer.name}<br><small>${o.customer.phone}</small></td><td><small>${o.customer.address}</small></td><td style="font-size:0.75rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${items}">${items}</td><td>₩${o.total}</td><td>₩${o.delivery}</td><td>₩${o.net}</td><td>${paymentText}</td></tr>`;
+        });
+        html += `</tbody></table></div>`;
+      }
+      section.innerHTML = html;
+    }
+
+    // ========== Event Listeners ==========
+    els.navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        els.navButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        els.sections.forEach(s => s.classList.remove('active'));
+        const section = document.getElementById(btn.dataset.section);
+        if (section) section.classList.add('active');
+        setTimeout(() => { pieChart?.resize(); barChart?.resize(); }, 100);
+      });
+    });
+    els.checkoutBtn?.addEventListener('click', checkout);
+    els.searchOrder?.addEventListener('input', renderOrders);
+    els.searchBtn?.addEventListener('click', renderOrders);
+    els.saveSettings?.addEventListener('click', saveSettings);
+    els.syncToCloud?.addEventListener('click', syncToCloud);
+    els.darkModeToggle?.addEventListener('change', () => applyDarkMode(els.darkModeToggle.checked));
+    els.langSwitch?.addEventListener('change', () => applyLanguage(els.langSwitch.value));
+    els.uploadArea?.addEventListener('click', () => els.productImage?.click());
+    els.productImage?.addEventListener('change', handleImageUpload);
+    els.searchProduct?.addEventListener('input', renderProducts);
+    els.searchProductBtn?.addEventListener('click', renderProducts);
+    els.addProductBtn?.addEventListener('click', addProductHandler);
+    els.exportProductsBtn?.addEventListener('click', exportProductsToExcel);
+    els.exportOrdersBtn?.addEventListener('click', exportOrdersToExcel);
+
+    // ========== Initialize ==========
+    async function init() {
+      applyLanguage(currentLang);
+      applyDarkMode(settings.darkModeDefault || isDark);
+      applyThemeColor(settings.themeColor);
+      if (els.settingStoreName) els.settingStoreName.value = settings.storeName;
+      if (els.settingAdminName) els.settingAdminName.value = settings.adminName;
+      if (els.settingStaffName) els.settingStaffName.value = settings.staffName;
+      if (els.settingCurrencyRate) els.settingCurrencyRate.value = settings.currencyRate;
+      if (els.settingDefaultDelivery) els.settingDefaultDelivery.value = settings.defaultDelivery;
+      if (els.settingThemeColor) els.settingThemeColor.value = settings.themeColor;
+      if (els.settingDarkModeDefault) els.settingDarkModeDefault.checked = settings.darkModeDefault;
+      if (els.settingMaintenanceMode) els.settingMaintenanceMode.checked = settings.maintenanceMode;
+      if (els.settingShowStock) els.settingShowStock.checked = settings.showStock;
+      if (els.settingCloudSync) els.settingCloudSync.checked = settings.cloudSync;
+      await loadFromCloud();
+    }
+    init();
+  </script>
+</body>
+</html>
